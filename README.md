@@ -10,7 +10,7 @@
   [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-coalvision.vercel.app-000?style=for-the-badge)](https://coalvision.vercel.app)
   [![React](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-  [![Vite](https://img.shields.io/badge/Vite-7.3-646cff?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+  [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791?style=for-the-badge&logo=postgresql)](https://neon.tech/)
 </div>
 
 ---
@@ -21,12 +21,28 @@ This project was developed for the **Ministry of Coal, Government of India** as 
 
 ---
 
+## 🔐 Demo Accounts
+
+Try the platform with these test accounts:
+
+| Role | Username | Password | Description |
+|------|----------|----------|-------------|
+| **Worker** | `Rajesh Kumar` | `worker123` | Mining Operator at Singrauli |
+| **Worker** | `Priya Sharma` | `worker123` | Safety Officer at Jharia |
+| **Supervisor** | `Amit Singh` | `supervisor123` | Shift Supervisor |
+| **Supervisor** | `Sunita Devi` | `supervisor123` | Safety Supervisor |
+| **Admin** | `Vikram Patel` | `admin123` | Mine Manager |
+| **Admin** | `Anita Gupta` | `admin123` | Safety Director |
+| **Demo** | `Demo User` | `demo123` | General Demo Account |
+
+---
+
 ## ✨ Features
 
-- 🔐 **Secure Authentication** - Firebase-powered login with session persistence
-- 👤 **Worker Dashboard** - Profile management with real-time status updates
-- 🔄 **Shift Handover** - Digital handover logs with PDF generation
-- 🛡️ **Safety Management** - DGMS-compliant safety protocols
+- 🔐 **Role-Based Authentication** - Worker, Supervisor, Admin access levels
+- 👤 **Worker Dashboard** - Profile management with real-time status
+- 🔄 **Shift Handover** - Digital logs with PDF generation
+- 🛡️ **Safety Management** - DGMS-compliant protocols
 - 🚨 **TARP Response** - Emergency response plans
 - 📊 **Daily Updates** - Production & environmental data
 - 📅 **Holiday Calendar** - National holidays listing
@@ -45,30 +61,6 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 📁 Project Structure
-
-```
-sih24/
-├── coalvision-modern/    # Modern React + TypeScript app
-│   ├── src/
-│   │   ├── pages/        # 7 page components
-│   │   ├── contexts/     # Auth context
-│   │   └── services/     # Firebase config
-│   └── public/assets/    # Images
-├── CoalVision/           # Legacy assets (backup)
-└── vercel.json           # Deployment config
-```
-
----
-
-## 🌐 Deployment
-
-Deployed on Vercel: [coalvision.vercel.app](https://coalvision.vercel.app)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/testing-archit/CoalVision)
-
----
-
 ## 🛠️ Tech Stack
 
 | Technology | Purpose |
@@ -77,8 +69,27 @@ Deployed on Vercel: [coalvision.vercel.app](https://coalvision.vercel.app)
 | TypeScript | Type Safety |
 | Vite | Build Tool |
 | TailwindCSS | Styling |
-| Firebase | Database & Auth |
+| PostgreSQL (Neon) | Database |
 | Framer Motion | Animations |
+
+---
+
+## 📁 Project Structure
+
+```
+sih24/
+├── coalvision-modern/    # React + TypeScript app
+│   ├── src/pages/        # 7 page components
+│   └── src/services/     # Database config
+├── CoalVision/           # Legacy assets
+└── vercel.json           # Deployment config
+```
+
+---
+
+## 🌐 Deployment
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/testing-archit/CoalVision)
 
 ---
 
