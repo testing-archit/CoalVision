@@ -1,0 +1,12 @@
+{
+    "buildCommand": "cd coalvision-modern && npm install && npm run build",
+    "outputDirectory": "coalvision-modern/dist",
+    "installCommand": "cd coalvision-modern && npm install",
+    "framework": "vite",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
+}
