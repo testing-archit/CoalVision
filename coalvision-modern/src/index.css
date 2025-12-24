@@ -1,4 +1,4 @@
-/* Coal Vision Design System */
+@import "tailwindcss";
 
 :root {
   /* Coal Industry Color Palette */
@@ -80,22 +80,22 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--coal-600);
+  background: var(--color-coal-600);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--coal-500);
+  background: var(--color-coal-500);
 }
 
 /* Button base styles */
-.btn {
+@utility btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md);
+  border-radius: 0.5rem;
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
@@ -104,79 +104,48 @@ body {
   outline: none;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+@utility btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
   box-shadow: 0 4px 14px rgba(0, 102, 204, 0.3);
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
-}
-
-.btn-danger {
-  background: linear-gradient(135deg, var(--color-danger) 0%, #b91c1c 100%);
+@utility btn-danger {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
   box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
 }
 
-.btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
-}
-
-.btn-ghost {
+@utility btn-ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: #94a3b8;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-}
-
 /* Card component */
-.card {
-  background: var(--bg-card);
+@utility card {
+  background: rgba(30, 41, 59, 0.8);
   backdrop-filter: blur(12px);
-  border-radius: var(--radius-lg);
+  border-radius: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
   transition: all 0.3s ease;
 }
 
-.card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-}
-
 /* Input styles */
-.input {
+@utility input {
   width: 100%;
   padding: 0.75rem 1rem;
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
+  border-radius: 0.5rem;
+  color: #f8fafc;
   font-size: 0.95rem;
   transition: all 0.2s ease;
 }
 
-.input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
-}
-
-.input::placeholder {
-  color: var(--text-muted);
-}
-
 /* Status badges */
-.badge {
+@utility badge {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -188,25 +157,25 @@ body {
   letter-spacing: 0.025em;
 }
 
-.badge-success {
+@utility badge-success {
   background: rgba(16, 185, 129, 0.2);
   color: #34d399;
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.badge-danger {
+@utility badge-danger {
   background: rgba(220, 38, 38, 0.2);
   color: #f87171;
   border: 1px solid rgba(220, 38, 38, 0.3);
 }
 
-.badge-warning {
+@utility badge-warning {
   background: rgba(245, 158, 11, 0.2);
   color: #fbbf24;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.badge-info {
+@utility badge-info {
   background: rgba(59, 130, 246, 0.2);
   color: #60a5fa;
   border: 1px solid rgba(59, 130, 246, 0.3);
@@ -237,15 +206,13 @@ body {
   }
 }
 
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
   }
 
-  50% {
-    opacity: 0.5;
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -258,19 +225,9 @@ body {
 }
 
 /* Loading skeleton */
-.skeleton {
-  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
+@utility skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, rgba(30, 41, 59, 0.8) 50%, #1e293b 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
+  border-radius: 0.5rem;
 }
