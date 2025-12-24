@@ -16,10 +16,9 @@ import {
     LogOut,
     CheckCircle
 } from 'lucide-react';
-import { ref, onValue, remove } from 'firebase/database';
-import { database } from '../services/firebase';
 import { useAuth } from '../contexts/AuthContext';
-import type { Alert } from '../types';
+import { getAlerts, dismissAlert as dismissAlertDb } from '../services/database';
+import type { Alert } from '../services/database';
 import toast from 'react-hot-toast';
 
 const Dashboard: React.FC = () => {
@@ -34,28 +33,20 @@ const Dashboard: React.FC = () => {
             return;
         }
 
-        // Listen for alerts from Firebase
-        const alertsRef = ref(database, 'alerts');
-        const unsubscribe = onValue(alertsRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                const alertList: Alert[] = Object.entries(data).map(([id, alert]) => ({
-                    id,
-                    ...(alert as Omit<Alert, 'id'>)
-                }));
-                setAlerts(alertList);
-            } else {
-                setAlerts([]);
-            }
+        // Load alerts from PostgreSQL
+        const loadAlerts = async () => {
+            const alertsData = await getAlerts();
+            setAlerts(alertsData);
             setIsLoadingAlerts(false);
-        });
+        };
 
-        return () => unsubscribe();
+        loadAlerts();
     }, [user, navigate]);
 
-    const dismissAlert = async (alertId: string) => {
+    const dismissAlert = async (alertId: number) => {
         try {
-            await remove(ref(database, `alerts/${alertId}`));
+            await dismissAlertDb(alertId);
+            setAlerts(alerts.filter(a => a.id !== alertId));
             toast.success('Alert dismissed');
         } catch (error) {
             toast.error('Failed to dismiss alert');
@@ -81,6 +72,14 @@ const Dashboard: React.FC = () => {
             case 'inactive': return 'badge-danger';
             case 'on leave': return 'badge-warning';
             default: return 'badge-info';
+        }
+    };
+
+    const getRoleBadge = (role: string) => {
+        switch (role?.toLowerCase()) {
+            case 'admin': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+            case 'supervisor': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+            default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
         }
     };
 
@@ -130,15 +129,7 @@ const Dashboard: React.FC = () => {
                             {/* Profile Picture */}
                             <div className="flex-shrink-0">
                                 <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center overflow-hidden">
-                                    <img
-                                        src="/assets/pic.png"
-                                        alt="Profile"
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                            e.currentTarget.src = '';
-                                            e.currentTarget.onerror = null;
-                                        }}
-                                    />
+                                    <User className="w-16 h-16 text-slate-400" />
                                 </div>
                             </div>
 
@@ -158,6 +149,9 @@ const Dashboard: React.FC = () => {
                                         <span className={`badge ${getStatusColor(user.status)}`}>
                                             {user.status}
                                         </span>
+                                        <span className={`badge ${getRoleBadge(user.role)}`}>
+                                            {user.role}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -165,14 +159,14 @@ const Dashboard: React.FC = () => {
                                     <IdCard className="w-5 h-5 text-green-400" />
                                     <div>
                                         <p className="text-sm text-slate-400">Enroll ID</p>
-                                        <p className="font-semibold text-white">{user.enrollId}</p>
+                                        <p className="font-semibold text-white">{user.enroll_id}</p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-3">
                                     <Briefcase className="w-5 h-5 text-purple-400" />
                                     <div>
-                                        <p className="text-sm text-slate-400">Department</p>
+                                        <p className="text-sm text-slate-400">Position</p>
                                         <p className="font-semibold text-white">{user.position}</p>
                                     </div>
                                 </div>
@@ -235,10 +229,10 @@ const Dashboard: React.FC = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.1 * index }}
                                     className={`p-3 rounded-lg border-l-4 ${task.type === 'urgent'
-                                        ? 'bg-red-500/10 border-red-500'
-                                        : task.type === 'delegate'
-                                            ? 'bg-amber-500/10 border-amber-500'
-                                            : 'bg-slate-700/50 border-slate-500'
+                                            ? 'bg-red-500/10 border-red-500'
+                                            : task.type === 'delegate'
+                                                ? 'bg-amber-500/10 border-amber-500'
+                                                : 'bg-slate-700/50 border-slate-500'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
@@ -287,11 +281,15 @@ const Dashboard: React.FC = () => {
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0, scale: 0.9 }}
-                                            className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg"
+                                            className={`p-3 rounded-lg border ${alert.priority === 'high'
+                                                    ? 'bg-red-500/10 border-red-500/30'
+                                                    : 'bg-amber-500/10 border-amber-500/30'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-2">
                                                 <div className="flex items-start gap-2">
-                                                    <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                                                    <AlertTriangle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${alert.priority === 'high' ? 'text-red-400' : 'text-amber-400'
+                                                        }`} />
                                                     <div>
                                                         <p className="font-medium text-white">{alert.title}</p>
                                                         <p className="text-sm text-slate-300">{alert.message}</p>

@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { ref, get, query, orderByChild, equalTo } from 'firebase/database';
-import { database } from '../services/firebase';
-import type { User } from '../types';
+import { loginUser } from '../services/database';
+import type { User } from '../services/database';
 
 interface AuthContextType {
     user: User | null;
@@ -49,38 +48,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError(null);
 
         try {
-            const usersRef = ref(database, 'dataform');
-            const userQuery = query(usersRef, orderByChild('name'), equalTo(name));
-            const snapshot = await get(userQuery);
+            const foundUser = await loginUser(name, password);
 
-            if (snapshot.exists()) {
-                let foundUser: User | null = null;
-
-                snapshot.forEach((childSnapshot) => {
-                    const userData = childSnapshot.val();
-                    if (userData.pass === password) {
-                        foundUser = {
-                            name: userData.name,
-                            enrollId: userData.enrollId,
-                            position: userData.position,
-                            site: userData.site,
-                            status: userData.status
-                        };
-                    }
-                });
-
-                if (foundUser) {
-                    setUser(foundUser);
-                    localStorage.setItem('coalvision_user', JSON.stringify(foundUser));
-                    setIsLoading(false);
-                    return true;
-                } else {
-                    setError('Invalid password');
-                    setIsLoading(false);
-                    return false;
-                }
+            if (foundUser) {
+                setUser(foundUser);
+                localStorage.setItem('coalvision_user', JSON.stringify(foundUser));
+                setIsLoading(false);
+                return true;
             } else {
-                setError('User not found');
+                setError('Invalid username or password');
                 setIsLoading(false);
                 return false;
             }

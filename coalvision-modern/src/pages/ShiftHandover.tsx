@@ -15,7 +15,17 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import toast from 'react-hot-toast';
-import type { Handover } from '../types';
+
+interface Handover {
+    id: string;
+    shiftDate: string;
+    supervisor: string;
+    importantNotes: string;
+    pendingTasks: string;
+    safetyConcerns: string;
+    equipmentStatus: string;
+    createdAt: string;
+}
 
 const ShiftHandover: React.FC = () => {
     const [handovers, setHandovers] = useState<Handover[]>([]);
