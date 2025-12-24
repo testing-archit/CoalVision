@@ -5,11 +5,19 @@
   
   **Modern Worker Management System for Coal India Limited**
   
+  🏆 **Smart India Hackathon 2024** — Rank 3 (Internal Round)
+  
   [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-coalvision.vercel.app-000?style=for-the-badge)](https://coalvision.vercel.app)
   [![React](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
   [![Vite](https://img.shields.io/badge/Vite-7.3-646cff?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 </div>
+
+---
+
+## 🎯 About
+
+This project was developed for the **Ministry of Coal, Government of India** as part of the **Smart India Hackathon 2024**. Our team secured **Rank 3** in the internal round with this comprehensive digital solution for coal mine worker safety and management.
 
 ---
 
@@ -57,8 +65,6 @@ sih24/
 
 Deployed on Vercel: [coalvision.vercel.app](https://coalvision.vercel.app)
 
-### Deploy Your Own
-
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/testing-archit/CoalVision)
 
 ---
@@ -77,6 +83,6 @@ Deployed on Vercel: [coalvision.vercel.app](https://coalvision.vercel.app)
 ---
 
 <div align="center">
-  <p>Built with ❤️ for Coal India Limited</p>
-  <p><sub>© 2024 Coal Vision. All rights reserved.</sub></p>
+  <p>Built with ❤️ for the Ministry of Coal, India</p>
+  <p><sub>Smart India Hackathon 2024 | © Coal Vision</sub></p>
 </div>
